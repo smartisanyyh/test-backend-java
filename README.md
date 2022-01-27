@@ -66,7 +66,7 @@ Here's what you should aim for:
 
 > Where should I send back the result when I'm done?
 
-Preferred way is to push it to github and give our team access to it.
+Fork this repo and send us a pull request when you think it's ready for review. You don't have to finish everything prior and you can continue to work on it. We don't have a deadline for the task.
 
 > What if I have a question?
 
