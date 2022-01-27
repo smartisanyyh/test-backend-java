@@ -1,4 +1,4 @@
-# Backend Developer (Node.js) test
+# Wiredcraft Back-end Developer Test
 
 Make sure you read the whole document carefully and follow the guidelines in it.
 
@@ -30,8 +30,8 @@ Build a RESTful API that can `get/create/update/delete` user data from a persist
 
 ### Tech stack
 
-- Use Node.js and any framework.
-- Use any DB. NoSQL DB is preferred.
+- Use Java and any framework.
+- Use any DB.
 
 ### Bonus
 
@@ -44,7 +44,7 @@ Build a RESTful API that can `get/create/update/delete` user data from a persist
 
 *These are used for some further challenges. You can safely skip them if you are not asked to do any, but feel free to try out.*
 
-- Provide a complete user auth (authentication/authorization/etc.) strategy, such as OAuth.
+- Provide a complete user auth (authentication/authorization/etc.) strategy, such as OAuth. This should provide a way to allow end users to securely login, autenticate requests and only access their own information.
 - Provide a complete logging (when/how/etc.) strategy.
 - Imagine we have a new requirement right now that the user instances need to link to each other, i.e., a list of "followers/following" or "friends". Can you find out how you would design the model structure and what API you would build for querying or modifying it?
 - Related to the requirement above, suppose the address of user now includes a geographic coordinate(i.e., latitude and longitude), can you build an API that,
@@ -58,7 +58,7 @@ Feel free to use any open-source library as you see fit, but remember that we ar
 
 Here's what you should aim for:
 
-- Good use of current Node.js & API design best practices.
+- Good use of current Java & API design best practices.
 - Good testing approach.
 - Extensible code.
 
@@ -66,8 +66,8 @@ Here's what you should aim for:
 
 > Where should I send back the result when I'm done?
 
-Fork this repo and send us a pull request when you think it's ready for review. You don't have to finish everything prior and you can continue to work on it. We don't have a deadline for the task.
+Preferred way is to push it to github and give our team access to it.
 
 > What if I have a question?
 
-Create a new issue in the repo and we will get back to you shortly.
+Feel free to make your own assumptions about the scope of this task but try to document those. You can also reach to us for questions.
