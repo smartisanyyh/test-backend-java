@@ -60,7 +60,7 @@ public class WebUtil {
             return null;
         }
         String key = USER_TOKEN_PREFIX + token;
-        BizUser bizUser = transVO(redisTemplate.opsForValue().get(key),BizUser.class);
+        BizUser bizUser = (BizUser) redisTemplate.opsForValue().get(key);
         if (null != bizUser) {
             //extend expiration time
             redisTemplate.expire(key, 30, TimeUnit.MINUTES);
