@@ -7,6 +7,8 @@ base-dbName: ${db.name:backend_test}
 base-dbUserName: ${db.username:root}
 base-dbPassword: ${db.password:1q2w3e4r}
 base-dbUrl: jdbc:mysql://${base-dbAddress}:${base-dbPort}/${base-dbName}?characterEncoding=utf-8&serverTimezone=GMT%2B8
+base-redis-host: ${redis.host:127.0.0.1}
+base-redis-port: ${redis.port:6379}
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -21,8 +23,8 @@ spring:
     baseline-on-migrate: true
   redis:
     database: 0
-    host: 127.0.0.1
-    port: 6379
+    host: ${base-redis-host}
+    port: ${base-redis-port}
     password: # 如果未单独配置默认为空即可
     timeout: 1000
     jedis:

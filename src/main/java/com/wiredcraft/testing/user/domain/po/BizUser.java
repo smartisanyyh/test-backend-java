@@ -26,7 +26,7 @@ public class BizUser implements Serializable {
      *
      */
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * user name
@@ -54,6 +54,18 @@ public class BizUser implements Serializable {
      * user description
      */
     private String description;
+
+    /**
+     * user longitude 经度
+     */
+    private Double longitude;
+
+
+    /**
+     * user latitude 纬度
+     */
+    private Double latitude;
+
 
     /**
      * user created date

@@ -80,6 +80,14 @@ public class ControllerExceptionHandler {
         return R.error(ResultCode.PARAM_ERROR, ex.getMessage());
     }
 
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    public R handleIllegalArgumentException(HttpServletRequest request,
+                                            IllegalArgumentException ex) {
+        return R.error(ResultCode.PARAM_ERROR, ex.getMessage());
+    }
+
     private FieldValidatorError toFieldValidatorError(ConstraintViolation<?> violation) {
         Path.Node lastNode = null;
         for (Path.Node node : violation.getPropertyPath()) {

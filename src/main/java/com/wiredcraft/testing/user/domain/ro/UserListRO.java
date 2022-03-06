@@ -22,4 +22,16 @@ public class UserListRO extends BaseRequest {
      */
     private String description;
 
+
+    /**
+     * user longitude 经度
+     */
+    private Double longitude;
+
+
+    /**
+     * user latitude 纬度
+     */
+    private Double latitude;
+
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wiredcraft.testing.common.enums.Constants;
 import com.wiredcraft.testing.common.vo.BaseRequest;
 import com.wiredcraft.testing.common.vo.PageVO;
 import com.wiredcraft.testing.user.domain.po.BizUser;
@@ -40,7 +41,7 @@ public class WebUtil {
         return request;
     }
 
-    public static final String USER_TOKEN_PREFIX = "wiredcraft:testing:user:logintoken:";
+
 
     public static BizUser getLoginUser() {
         if (hasLoginUser.get() != null && hasLoginUser.get()) {
@@ -59,7 +60,7 @@ public class WebUtil {
             hasLoginUser.set(false);
             return null;
         }
-        String key = USER_TOKEN_PREFIX + token;
+        String key = Constants.USER_TOKEN_PREFIX + token;
         BizUser bizUser = (BizUser) redisTemplate.opsForValue().get(key);
         if (null != bizUser) {
             //extend expiration time

@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiredcraft.testing.common.annotations.Anonymous;
+import com.wiredcraft.testing.common.enums.Constants;
 import com.wiredcraft.testing.common.enums.ResultCode;
 import com.wiredcraft.testing.common.exception.ServiceException;
 import com.wiredcraft.testing.common.utils.WebUtil;
@@ -18,11 +19,16 @@ import com.wiredcraft.testing.user.domain.vo.UserInfoVO;
 import com.wiredcraft.testing.user.service.BizUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.*;
+import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -33,8 +39,13 @@ public class UserController {
     @Autowired
     RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * get a user info by id
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("{id}")
-
     public UserInfoVO get(@PathVariable Long id) {
         BizUser user = bizUserService.getById(id);
         if (user == null) {
@@ -46,6 +57,12 @@ public class UserController {
         return result;
     }
 
+    /**
+     * list all users or page users
+     *
+     * @param userListRO
+     * @return
+     */
     @GetMapping("list")
     public PageVO<UserInfoVO> list(@RequestBody UserListRO userListRO) {
         Page<BizUser> page = WebUtil.getPage(userListRO);
@@ -58,9 +75,15 @@ public class UserController {
 
     }
 
+    /**
+     * create a user
+     *
+     * @param userCreateRO
+     * @return
+     */
     @Anonymous
     @PostMapping
-    public void create(@RequestBody @Valid UserCreateRO userCreateRO) {
+    public Long create(@RequestBody @Valid UserCreateRO userCreateRO) {
         BizUser user = new BizUser();
         BeanUtils.copyProperties(userCreateRO, user);
         user.setPwd(DigestUtil.md5Hex(user.getPwd()));
@@ -69,14 +92,24 @@ public class UserController {
             throw new ServiceException(ResultCode.DUPLICATE_NAME);
         }
         bizUserService.save(user);
+        return user.getId();
     }
 
+    /**
+     * delete user by id
+     *
+     * @param id
+     */
     @DeleteMapping("{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable Long id) {
         bizUserService.removeById(id);
     }
 
-
+    /**
+     * modify user by id
+     *
+     * @param userModifyRO
+     */
     @PutMapping
     public void put(@RequestBody @Valid UserModifyRO userModifyRO) {
         BizUser user = new BizUser();
@@ -86,6 +119,12 @@ public class UserController {
     }
 
 
+    /**
+     * login
+     *
+     * @param userLoginRO
+     * @return
+     */
     @Anonymous
     @PostMapping("login")
     public String login(@RequestBody @Valid UserLoginRO userLoginRO) {
@@ -94,10 +133,62 @@ public class UserController {
                 .eq(BizUser::getPwd, userLoginRO.getPwd()).oneOpt();
         if (bizUser.isPresent()) {
             String token = IdUtil.randomUUID();
-            redisTemplate.opsForValue().set(WebUtil.USER_TOKEN_PREFIX + token, bizUser.get(), 30, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(Constants.USER_TOKEN_PREFIX + token, bizUser.get(), 30, TimeUnit.MINUTES);
             return token;
         } else {
             throw new ServiceException(ResultCode.LOGIN_ERROR);
         }
     }
+
+    /**
+     * add a friend
+     *
+     * @param id the other user id
+     * @return
+     */
+    @PostMapping("friend/{id}")
+    public void friend(@PathVariable Long id) {
+        BizUser loginUser = WebUtil.getLoginUser();
+        assert loginUser != null;
+        if (loginUser.getId().equals(id)) {
+            throw new ServiceException(ResultCode.ADD_SELF_ERROR);
+        }
+        //add current user's friend
+        BizUser friend = bizUserService.getById(id);
+        if (null == friend) {
+            throw new ServiceException(ResultCode.USER_NOT_EXISTS);
+        }
+        redisTemplate.opsForGeo().add(Constants.USER_FRIEND_PREFIX + loginUser.getId(),
+                new Point(friend.getLongitude(), friend.getLatitude()), id);
+        //todo user confirmation & other biz check
+        //add other user's friend
+        redisTemplate.opsForGeo().add(Constants.USER_FRIEND_PREFIX + id,
+                new Point(loginUser.getLongitude(), loginUser.getLatitude()), loginUser.getId());
+    }
+
+    /**
+     * get current user's friends id
+     *
+     * @return
+     */
+    @GetMapping("friend")
+    public Set<Object> getAllfriend() {
+        //todo page and get other info
+        return redisTemplate.opsForZSet().range(Constants.USER_FRIEND_PREFIX +
+                Objects.requireNonNull(WebUtil.getLoginUser()).getId(), 0, -1);
+    }
+
+
+    /**
+     * Get people near the current user
+     *
+     * @return
+     */
+    @GetMapping("friend/near/{distance}")
+    public GeoResults<RedisGeoCommands.GeoLocation<Object>> nearfriend(@PathVariable Double distance) {
+        return bizUserService.nearfriend(distance);
+
+    }
+
+
 }

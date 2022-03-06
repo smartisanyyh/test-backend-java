@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 @Data
 public class UserCreateRO {
 
@@ -26,7 +25,7 @@ public class UserCreateRO {
     /**
      * user date of birth
      */
-    @NotNull(message = "dob must not be empty")
+    @NotNull(message = "user date of birth must not be empty")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private LocalDate dob;
 
@@ -41,5 +40,19 @@ public class UserCreateRO {
      */
     @NotBlank(message = "description must not be empty")
     private String description;
+
+
+    /**
+     * user longitude 经度
+     */
+    @NotNull(message = "longitude must not be empty")
+    private Double longitude;
+
+
+    /**
+     * user latitude 纬度
+     */
+    @NotNull(message = "latitude must not be empty")
+    private Double latitude;
 
 }

@@ -1,73 +1,32 @@
 # Wiredcraft Back-end Developer Test
 
-Make sure you read the whole document carefully and follow the guidelines in it.
 
-## Context
+## Features
+- add a user
+- delete a user 
+- query user
+- modify user
+- add friend
+- Find nearby friends
 
-Build a RESTful API that can `get/create/update/delete` user data from a persistence database
+## REQUIREMENT
+- Mysql 5.7+
+- Redis 3.2+
+- JDK 1.8
 
-### User Model
+## Getting started
+1. clone  this repository  
+2. open in idea
+3. modify Run configuration 
+4. create a new database ```CREATE DATABASE `backend_test` CHARACTER SET utf8 COLLATE utf8_general_ci;```
+5. add & modify  VM options  `-Ddb.address=127.0.0.1 -Ddb.port=3306 -Ddb.name=backend_test -Ddb.username=root -Ddb.password=1q2w3e4r -Dredis.host=127.0.0.1 -Dredis.port=6379 `
+6. Run 
+## Documentation & Unit Test
+[online documentation](https://documenter.getpostman.com/view/3170707/UVkvHBjM)
+or 
+Import these two files into postman
+- WiredCraft.postman_collection.json
+- WiredCraft Tests.postman_collection.json
 
-```
-{
-  "id": "xxx",                  // user ID 
-  "name": "test",               // user name
-  "dob": "",                    // date of birth
-  "address": "",                // user address
-  "description": "",            // user description
-  "createdAt": ""               // user created date
-}
-```
-
-## Requirements
-
-### Functionality
-
-- The API should follow typical RESTful API design pattern.
-- The data should be saved in the DB.
-- Provide proper unit test.
-- Provide proper API document.
-
-### Tech stack
-
-- Use Java and any framework.
-- Use any DB.
-
-### Bonus
-
-- Write clear documentation on how it's designed and how to run the code.
-- Write good in-code comments.
-- Write good commit messages.
-- An online demo is always welcome.
-
-### Advanced requirements
-
-*These are used for some further challenges. You can safely skip them if you are not asked to do any, but feel free to try out.*
-
-- Provide a complete user auth (authentication/authorization/etc.) strategy, such as OAuth. This should provide a way to allow end users to securely login, autenticate requests and only access their own information.
-- Provide a complete logging (when/how/etc.) strategy.
-- Imagine we have a new requirement right now that the user instances need to link to each other, i.e., a list of "followers/following" or "friends". Can you find out how you would design the model structure and what API you would build for querying or modifying it?
-- Related to the requirement above, suppose the address of user now includes a geographic coordinate(i.e., latitude and longitude), can you build an API that,
-  - given a user name
-  - return the nearby friends
-
-
-## What We Care About
-
-Feel free to use any open-source library as you see fit, but remember that we are evaluating your coding skills and problem solving skills.
-
-Here's what you should aim for:
-
-- Good use of current Java & API design best practices.
-- Good testing approach.
-- Extensible code.
-
-## FAQ
-
-> Where should I send back the result when I'm done?
-
-Fork this repo and send us a pull request when you think it's ready for review. You don't have to finish everything prior and you can continue to work on it. We don't have a deadline for the task.
-
-> What if I have a question?
-
-Feel free to make your own assumptions about the scope of this task but try to document those. You can also reach to us for questions.
+![](https://s3.bmp.ovh/imgs/2022/03/78aade3e532e2d0c.png)
+![](https://s3.bmp.ovh/imgs/2022/03/69cc3a5e01c5f386.png)

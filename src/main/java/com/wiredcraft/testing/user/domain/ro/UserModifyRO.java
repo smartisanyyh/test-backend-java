@@ -12,7 +12,7 @@ public class UserModifyRO {
 
 
     @NotNull(message = "id must not be null")
-    private Integer id;
+    private Long id;
 
     /**
      * user name
@@ -44,6 +44,18 @@ public class UserModifyRO {
      */
     @NotBlank(message = "description must not be empty")
     private String description;
+
+
+    /**
+     * user longitude 经度
+     */
+    private Double longitude;
+
+
+    /**
+     * user latitude 纬度
+     */
+    private Double latitude;
 
 
 }

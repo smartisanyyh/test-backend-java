@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class UserInfoVO {
 
-    private Integer id;
+    private Long id;
 
     /**
      * user name
@@ -29,5 +29,17 @@ public class UserInfoVO {
      * user description
      */
     private String description;
+
+
+    /**
+     * user longitude 经度
+     */
+    private Double longitude;
+
+
+    /**
+     * user latitude 纬度
+     */
+    private Double latitude;
 
 }
