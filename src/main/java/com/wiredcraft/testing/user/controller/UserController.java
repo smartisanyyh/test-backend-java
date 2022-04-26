@@ -40,8 +40,8 @@ public class UserController {
     RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * get a user info by id2
-     *2
+     * get a user info by id3
+     *3
      * @param id
      * @return
      */
